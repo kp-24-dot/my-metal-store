@@ -1,225 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metal Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metal Buy & Sell Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      color: #222;
+    }
 
-<style>
-body {
-  font-family: Arial;
-  background: #f5f5f5;
-  margin: 0;
-}
+    header {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
 
-/* HEADER */
-header {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 25px;
-}
+    header h1 {
+      margin: 0 0 10px;
+    }
 
-/* BUTTONS */
-.main-buttons, .sub-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px;
-  flex-wrap: wrap;
-}
+    .main-buttons,
+    .sub-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px;
+      flex-wrap: wrap;
+    }
 
-button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
 
-/* COLORS */
-.buy-btn { background: green; color: white; }
-.sell-btn { background: red; color: white; }
-.gold { background: gold; }
-.silver { background: silver; }
-.other { background: #ccc; }
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
 
-/* ACTIVE BUTTON (GREEN OUTLINE) */
-.active-btn {
-  border: 3px solid green;
-  box-shadow: 0 0 10px green;
-  transform: scale(1.05);
-}
+    .buy-btn {
+      background: green;
+      color: white;
+    }
 
-/* SECTIONS */
-.section {
-  display: none;
-  text-align: center;
-}
+    .sell-btn {
+      background: red;
+      color: white;
+    }
 
-.products {
-  display: none;
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-}
+    .gold {
+      background: gold;
+      color: black;
+    }
 
-/* CARDS */
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-}
+    .silver {
+      background: silver;
+      color: black;
+    }
 
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
+    .other {
+      background: #d9d9d9;
+      color: black;
+    }
 
-/* SELL FORM */
-textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-}
+    .active-btn {
+      outline: 3px solid green;
+      box-shadow: 0 0 10px green;
+    }
 
-/* CONTACT */
-footer {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 30px;
-  margin-top: 40px;
-}
+    .section {
+      display: none;
+      text-align: center;
+      padding-bottom: 20px;
+    }
 
-footer a {
-  color: gold;
-  text-decoration: none;
-}
-</style>
+    .products {
+      display: none;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding-bottom: 15px;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .card h3 {
+      margin: 15px 0 8px;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .sell-form {
+      max-width: 650px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .sell-form h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .sell-form label {
+      font-weight: bold;
+    }
+
+    .sell-form input[type="file"],
+    .sell-form textarea {
+      width: 100%;
+      margin-top: 8px;
+      margin-bottom: 18px;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .submit-btn {
+      background: red;
+      color: white;
+      width: 100%;
+    }
+
+    .status-msg {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: gold;
+      text-decoration: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Metal Buy & Sell Store</h1>
-  <p>Select Buy or Sell, then choose category</p>
-</header>
+  <header>
+    <h1>Metal Buy & Sell Store</h1>
+    <p>Select Buy or Sell, then choose category</p>
+  </header>
 
-<!-- MAIN BUTTONS -->
-<div class="main-buttons">
-  <button class="buy-btn" onclick="showMain('buy')">BUY</button>
-  <button class="sell-btn" onclick="showMain('sell')">SELL</button>
-</div>
-
-<!-- BUY SECTION -->
-<div id="buy-section" class="section">
-  <h2>Buy Products</h2>
-
-  <div class="sub-buttons">
-    <button class="gold sub-btn" onclick="selectCategory(this,'buy-gold')">Gold</button>
-    <button class="silver sub-btn" onclick="selectCategory(this,'buy-silver')">Silver</button>
-    <button class="other sub-btn" onclick="selectCategory(this,'buy-other')">Other</button>
+  <div class="main-buttons">
+    <button class="buy-btn" onclick="showMain('buy')">BUY</button>
+    <button class="sell-btn" onclick="showMain('sell')">SELL</button>
   </div>
 
-  <div id="buy-gold" class="products">
-    <div class="card">
-      <img src="images/gold1.jpg">
-      <h3>Gold Maple</h3>
-      <p>$3250</p>
+  <!-- BUY SECTION -->
+  <div id="buy-section" class="section">
+    <h2>Buy Products</h2>
+
+    <div class="sub-buttons">
+      <button class="gold sub-btn" onclick="selectCategory(this, 'buy-gold')">Gold</button>
+      <button class="silver sub-btn" onclick="selectCategory(this, 'buy-silver')">Silver</button>
+      <button class="other sub-btn" onclick="selectCategory(this, 'buy-other')">Other</button>
+    </div>
+
+    <div id="buy-gold" class="products">
+      <div class="card">
+        <img src="https://via.placeholder.com/300x180?text=Gold+Item+1" alt="Gold Item">
+        <h3>Gold Maple</h3>
+        <p>$3250</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x180?text=Gold+Item+2" alt="Gold Item">
+        <h3>Gold Bar</h3>
+        <p>$950</p>
+      </div>
+    </div>
+
+    <div id="buy-silver" class="products">
+      <div class="card">
+        <img src="https://via.placeholder.com/300x180?text=Silver+Item+1" alt="Silver Item">
+        <h3>Silver Maple</h3>
+        <p>$48</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/300x180?text=Silver+Item+2" alt="Silver Item">
+        <h3>Silver Bar</h3>
+        <p>$420</p>
+      </div>
+    </div>
+
+    <div id="buy-other" class="products">
+      <div class="card">
+        <img src="https://via.placeholder.com/300x180?text=Collectible+Coin" alt="Other Item">
+        <h3>Collectible Coin</h3>
+        <p>$120</p>
+      </div>
     </div>
   </div>
 
-  <div id="buy-silver" class="products">
-    <div class="card">
-      <img src="images/silver1.jpg">
-      <h3>Silver Maple</h3>
-      <p>$48</p>
+  <!-- SELL SECTION -->
+  <div id="sell-section" class="section">
+    <h2>Sell Your Items</h2>
+
+    <div class="sub-buttons">
+      <button class="gold sub-btn" onclick="selectSellCategory(this, 'Gold')">Gold</button>
+      <button class="silver sub-btn" onclick="selectSellCategory(this, 'Silver')">Silver</button>
+      <button class="other sub-btn" onclick="selectSellCategory(this, 'Other')">Other</button>
+    </div>
+
+    <div class="sell-form">
+      <h3>Upload Your Item</h3>
+
+      <label for="itemPhoto">Choose or take a photo:</label>
+      <input id="itemPhoto" type="file" accept="image/*" />
+
+      <label for="itemDesc">Description:</label>
+      <textarea id="itemDesc" rows="5" placeholder="Enter details about your item..."></textarea>
+
+      <button class="submit-btn" type="button" onclick="sendToTelegram()">Submit Item</button>
+
+      <div id="statusMsg" class="status-msg"></div>
     </div>
   </div>
 
-  <div id="buy-other" class="products">
-    <div class="card">
-      <img src="images/other1.jpg">
-      <h3>Collectible Coin</h3>
-      <p>$120</p>
-    </div>
-  </div>
-</div>
+  <footer>
+    <h2>Contact Us</h2>
+    <p>📞 Phone: <a href="tel:12049510491">204-951-0491</a></p>
+    <p>📧 Email: <a href="mailto:mangatk841@gmail.com">mangatk841@gmail.com</a></p>
+  </footer>
 
-<!-- SELL SECTION -->
-<div id="sell-section" class="section">
-  <h2>Sell Your Items</h2>
+  <script>
+    let selectedSellCategory = "";
 
-  <div class="sub-buttons">
-    <button class="gold sub-btn" onclick="selectCategory(this,'sell-gold')">Gold</button>
-    <button class="silver sub-btn" onclick="selectCategory(this,'sell-silver')">Silver</button>
-    <button class="other sub-btn" onclick="selectCategory(this,'sell-other')">Other</button>
-  </div>
+    function showMain(type) {
+      document.getElementById("buy-section").style.display = "none";
+      document.getElementById("sell-section").style.display = "none";
 
-  <!-- SELL FORM -->
-  <div style="max-width:600px; margin:30px auto; background:white; padding:20px; border-radius:10px;">
-    
-    <h3>Upload Your Item</h3>
+      if (type === "buy") {
+        document.getElementById("buy-section").style.display = "block";
+      } else {
+        document.getElementById("sell-section").style.display = "block";
+      }
 
-    <input type="file" accept="image/*" capture="environment"><br><br>
+      hideAllProducts();
+      removeActiveButtons();
+    }
 
-    <textarea rows="5" placeholder="Enter details about your item..."></textarea><br><br>
+    function selectCategory(button, id) {
+      removeActiveButtons();
+      button.classList.add("active-btn");
+      hideAllProducts();
+      document.getElementById(id).style.display = "grid";
+    }
 
-    <button style="background:red; color:white;">Submit Item</button>
-  </div>
+    function selectSellCategory(button, category) {
+      removeActiveButtons();
+      button.classList.add("active-btn");
+      selectedSellCategory = category;
+    }
 
-  <div id="sell-gold" class="products"></div>
-  <div id="sell-silver" class="products"></div>
-  <div id="sell-other" class="products"></div>
-</div>
+    function hideAllProducts() {
+      const all = document.querySelectorAll(".products");
+      all.forEach(section => {
+        section.style.display = "none";
+      });
+    }
 
-<!-- CONTACT -->
-<footer>
-  <h2>Contact Us</h2>
-  <p>📞 Phone: <a href="tel:12049510491">204-951-0491</a></p>
-  <p>📧 Email: <a href="mailto:mangatk841@gmail.com">mangatk841@gmail.com</a></p>
-</footer>
+    function removeActiveButtons() {
+      const buttons = document.querySelectorAll(".sub-btn");
+      buttons.forEach(btn => btn.classList.remove("active-btn"));
+    }
 
-<script>
-function showMain(type) {
-  document.getElementById('buy-section').style.display = 'none';
-  document.getElementById('sell-section').style.display = 'none';
+    async function sendToTelegram() {
+      const BOT_TOKEN = "YOUR_BOT_TOKEN";
+      const CHAT_ID = "YOUR_CHAT_ID";
 
-  if (type === 'buy') {
-    document.getElementById('buy-section').style.display = 'block';
-  } else {
-    document.getElementById('sell-section').style.display = 'block';
-  }
+      const photoInput = document.getElementById("itemPhoto");
+      const descInput = document.getElementById("itemDesc");
+      const statusMsg = document.getElementById("statusMsg");
 
-  hideAllProducts();
-  removeActive();
-}
+      const file = photoInput.files[0];
+      const desc = descInput.value.trim();
 
-function selectCategory(button, id) {
-  removeActive();
+      if (!selectedSellCategory) {
+        statusMsg.style.color = "red";
+        statusMsg.textContent = "Please choose Gold, Silver, or Other.";
+        return;
+      }
 
-  button.classList.add('active-btn');
+      if (!file) {
+        statusMsg.style.color = "red";
+        statusMsg.textContent = "Please select a photo.";
+        return;
+      }
 
-  hideAllProducts();
+      if (!desc) {
+        statusMsg.style.color = "red";
+        statusMsg.textContent = "Please enter a description.";
+        return;
+      }
 
-  document.getElementById(id).style.display = 'grid';
-}
+      statusMsg.style.color = "black";
+      statusMsg.textContent = "Sending...";
 
-function hideAllProducts() {
-  const all = document.querySelectorAll('.products');
-  all.forEach(p => p.style.display = 'none');
-}
+      const formData = new FormData();
+      formData.append("chat_id", CHAT_ID);
+      formData.append("photo", file);
+      formData.append(
+        "caption",
+        "New Sell Request\nCategory: " + selectedSellCategory + "\nDescription: " + desc
+      );
 
-function removeActive() {
-  const buttons = document.querySelectorAll('.sub-btn');
-  buttons.forEach(btn => btn.classList.remove('active-btn'));
-}
-</script>
+      try {
+        const response = await fetch(
+          "https://api.telegram.org/bot" + BOT_TOKEN + "/sendPhoto",
+          {
+            method: "POST",
+            body: formData
+          }
+        );
+
+        if (response.ok) {
+          statusMsg.style.color = "green";
+          statusMsg.textContent = "Item sent successfully to Telegram.";
+
+          photoInput.value = "";
+          descInput.value = "";
+        } else {
+          statusMsg.style.color = "red";
+          statusMsg.textContent = "Failed to send. Check bot token and chat ID.";
+        }
+      } catch (error) {
+        statusMsg.style.color = "red";
+        statusMsg.textContent = "Error sending item. Please try again.";
+      }
+    }
+  </script>
 
 </body>
 </html>
