@@ -1,1 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metal Store</title>
 
+<style>
+body {
+  font-family: Arial;
+  background: #f5f5f5;
+  margin: 0;
+}
+
+/* HEADER */
+header {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 25px;
+}
+
+/* BUTTONS */
+.main-buttons, .sub-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* COLORS */
+.buy-btn { background: green; color: white; }
+.sell-btn { background: red; color: white; }
+.gold { background: gold; }
+.silver { background: silver; }
+.other { background: #ccc; }
+
+/* ACTIVE BUTTON (GREEN OUTLINE) */
+.active-btn {
+  border: 3px solid green;
+  box-shadow: 0 0 10px green;
+  transform: scale(1.05);
+}
+
+/* SECTIONS */
+.section {
+  display: none;
+  text-align: center;
+}
+
+.products {
+  display: none;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+/* CARDS */
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* SELL FORM */
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* CONTACT */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: gold;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Metal Buy & Sell Store</h1>
+  <p>Select Buy or Sell, then choose category</p>
+</header>
+
+<!-- MAIN BUTTONS -->
+<div class="main-buttons">
+  <button class="buy-btn" onclick="showMain('buy')">BUY</button>
+  <button class="sell-btn" onclick="showMain('sell')">SELL</button>
+</div>
+
+<!-- BUY SECTION -->
+<div id="buy-section" class="section">
+  <h2>Buy Products</h2>
+
+  <div class="sub-buttons">
+    <button class="gold sub-btn" onclick="selectCategory(this,'buy-gold')">Gold</button>
+    <button class="silver sub-btn" onclick="selectCategory(this,'buy-silver')">Silver</button>
+    <button class="other sub-btn" onclick="selectCategory(this,'buy-other')">Other</button>
+  </div>
+
+  <div id="buy-gold" class="products">
+    <div class="card">
+      <img src="images/gold1.jpg">
+      <h3>Gold Maple</h3>
+      <p>$3250</p>
+    </div>
+  </div>
+
+  <div id="buy-silver" class="products">
+    <div class="card">
+      <img src="images/silver1.jpg">
+      <h3>Silver Maple</h3>
+      <p>$48</p>
+    </div>
+  </div>
+
+  <div id="buy-other" class="products">
+    <div class="card">
+      <img src="images/other1.jpg">
+      <h3>Collectible Coin</h3>
+      <p>$120</p>
+    </div>
+  </div>
+</div>
+
+<!-- SELL SECTION -->
+<div id="sell-section" class="section">
+  <h2>Sell Your Items</h2>
+
+  <div class="sub-buttons">
+    <button class="gold sub-btn" onclick="selectCategory(this,'sell-gold')">Gold</button>
+    <button class="silver sub-btn" onclick="selectCategory(this,'sell-silver')">Silver</button>
+    <button class="other sub-btn" onclick="selectCategory(this,'sell-other')">Other</button>
+  </div>
+
+  <!-- SELL FORM -->
+  <div style="max-width:600px; margin:30px auto; background:white; padding:20px; border-radius:10px;">
+    
+    <h3>Upload Your Item</h3>
+
+    <input type="file" accept="image/*" capture="environment"><br><br>
+
+    <textarea rows="5" placeholder="Enter details about your item..."></textarea><br><br>
+
+    <button style="background:red; color:white;">Submit Item</button>
+  </div>
+
+  <div id="sell-gold" class="products"></div>
+  <div id="sell-silver" class="products"></div>
+  <div id="sell-other" class="products"></div>
+</div>
+
+<!-- CONTACT -->
+<footer>
+  <h2>Contact Us</h2>
+  <p>📞 Phone: <a href="tel:12049510491">204-951-0491</a></p>
+  <p>📧 Email: <a href="mailto:mangatk841@gmail.com">mangatk841@gmail.com</a></p>
+</footer>
+
+<script>
+function showMain(type) {
+  document.getElementById('buy-section').style.display = 'none';
+  document.getElementById('sell-section').style.display = 'none';
+
+  if (type === 'buy') {
+    document.getElementById('buy-section').style.display = 'block';
+  } else {
+    document.getElementById('sell-section').style.display = 'block';
+  }
+
+  hideAllProducts();
+  removeActive();
+}
+
+function selectCategory(button, id) {
+  removeActive();
+
+  button.classList.add('active-btn');
+
+  hideAllProducts();
+
+  document.getElementById(id).style.display = 'grid';
+}
+
+function hideAllProducts() {
+  const all = document.querySelectorAll('.products');
+  all.forEach(p => p.style.display = 'none');
+}
+
+function removeActive() {
+  const buttons = document.querySelectorAll('.sub-btn');
+  buttons.forEach(btn => btn.classList.remove('active-btn'));
+}
+</script>
+
+</body>
+</html>
